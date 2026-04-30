@@ -103,7 +103,7 @@ input[type="checkbox"] {
   text-decoration: line-through;
   color: #aaa;
 }
- body { font-family: sans-serif; margin: 2em; }
+body { font-family: sans-serif; margin: 2em; }
 main { max-width: 400px; margin: 0 auto; }
 li { display: flex; align-items: center; margin-bottom: .5em; }
 li.completed span { text-decoration: line-through; color: #aaa; }
