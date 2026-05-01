@@ -1,4 +1,3 @@
-/* --- Global Reset & Professional Font --- */
 * {
   box-sizing: border-box;
 }
@@ -6,7 +5,6 @@
 body, .todo-dashboard {
   margin: 0;
   padding: 0;
-  /* Use a modern, narrow, clean font stack like Denise has */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
   color: #202020;
 }
@@ -16,12 +14,9 @@ body, .todo-dashboard {
   height: 100vh;
 }
 
-/* =======================================================
-   = SIDEBAR (As requested, to look exactly like the sample) =
-   ======================================================= */
 .todo-sidebar {
   width: 320px;
-  background-color: #faf9f8; /* A darker beige/gray background */
+  background-color: #faf9f8;
   padding: 20px 15px;
   border-right: 1px solid #f0f0f0;
   display: flex;
@@ -68,7 +63,6 @@ body, .todo-dashboard {
   font-size: 18px;
 }
 
-/* Nav Menu */
 .sidebar-nav ul {
   list-style: none;
   padding: 0;
@@ -83,11 +77,12 @@ body, .todo-dashboard {
   align-items: center;
   font-size: 14px;
   color: #202020;
+  transition: all 0.2s ease;
 }
 
 .sidebar-nav li span {
   margin-right: 12px;
-  width: 20px; /* Aligns the icons vertically */
+  width: 20px;
   text-align: center;
 }
 
@@ -101,7 +96,6 @@ body, .todo-dashboard {
   font-weight: 500;
 }
 
-/* Projects Section (Removed all bullet points as requested) */
 .sidebar-projects {
   margin-top: 10px;
 }
@@ -140,13 +134,13 @@ body, .todo-dashboard {
   font-size: 14px;
   border-radius: 6px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .project-list li:hover {
   background-color: #f0f0f0;
 }
 
-/* Colored Dots for Projects */
 .project-dot {
   width: 10px;
   height: 10px;
@@ -162,10 +156,6 @@ body, .todo-dashboard {
 .project-dot.roadmap { background-color: #aaee44; }
 .project-dot.meeting { background-color: #ff55aa; }
 
-
-/* =======================================================
-   = MAIN CONTENT AREA (The clean interface) =
-   ======================================================= */
 .todo-main {
   flex: 1;
   background-color: #ffffff;
@@ -193,9 +183,6 @@ body, .todo-dashboard {
   cursor: pointer;
 }
 
-/* =======================================================
-   = PROFESSIONAL TASK LIST (The clean look) =
-   ======================================================= */
 .clean-task-list {
   list-style: none;
   padding: 0;
@@ -205,39 +192,40 @@ body, .todo-dashboard {
 .clean-task-list li {
   border-bottom: 1px solid #f0f0f0;
   padding: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .task-content {
   display: flex;
   align-items: flex-start;
   gap: 15px;
+  width: 100%;
 }
 
-/* Checkbox styling matching Todoist circles */
 .task-content input[type="checkbox"] {
   width: 20px;
   height: 20px;
   border: 1px solid #ddd;
-  border-radius: 50%; /* Circle shape! */
+  border-radius: 50%;
   margin-top: 3px;
   appearance: none;
-  -webkit-appearance: none;
   cursor: pointer;
   background-color: white;
   transition: all 0.2s;
 }
 
-/* Checkbox when hovering */
 .task-content input[type="checkbox"]:hover {
   border-color: #db4c3f;
   background-color: #ffefe5;
 }
 
-/* Checkbox when completed (The 'check' icon look) */
 .task-content input[type="checkbox"]:checked {
   background-color: #db4c3f;
   border-color: #db4c3f;
 }
+
 .task-content input[type="checkbox"]:checked::after {
   content: '✓';
   color: white;
@@ -247,35 +235,35 @@ body, .todo-dashboard {
   left: 3px;
 }
 
-/* Text area */
 .task-text-group {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .task-main-text {
-  font-size: 15px;
-  color: #202020;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
-.task-detail {
-  font-size: 13px;
-  color: #db4c3f;
-  margin-top: 4px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-/* Complete task styling */
 .task-complete .task-main-text {
   text-decoration: line-through;
   color: #aaa;
 }
 
-/* =======================================================
-   = INLINE ADD TASK (Move to bottom of list) =
-   ======================================================= */
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.2);
+  color: #db4c3f;
+}
+
 .inline-add-task form {
   display: flex;
   align-items: center;
@@ -302,22 +290,12 @@ body, .todo-dashboard {
   color: #db4c3f;
   cursor: pointer;
 }
-/* Sidebar Project Colors */
-.project-dot.linux { background-color: #ff5555; }   /* Red for Linux */
-.project-dot.algebra { background-color: #55ff55; } /* Green for Algebra */
-.project-dot.ai { background-color: #5555ff; }      /* Blue for AI */
 
-/* Add these to your existing CSS */
+.project-dot.linux { background-color: #ff5555; }
+.project-dot.algebra { background-color: #55ff55; }
+.project-dot.ai { background-color: #5555ff; }
+
 .project-list li.active {
   background-color: #f0f0f0;
   font-weight: bold;
-}
-
-.clean-task-list {
-  margin-bottom: 20px;
-}
-
-.task-main-text {
-  font-size: 16px;
-  transition: all 0.3s ease;
 }
