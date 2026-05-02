@@ -299,3 +299,224 @@ button:hover {
   background-color: #f0f0f0;
   font-weight: bold;
 }
+.todo-dashboard {
+  display: flex;
+  height: 100vh;
+  font-family: Arial;
+}
+
+.todo-sidebar {
+  width: 220px;
+  background: #1e1e2f;
+  color: white;
+  padding: 20px;
+}
+
+.avatar-circle {
+  width: 50px;
+  height: 50px;
+  background: #4caf50;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.menu p {
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.todo-main {
+  flex: 1;
+  padding: 30px;
+  background: #f4f6f8;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stats {
+  margin: 10px 0;
+}
+
+.add-form {
+  display: flex;
+  margin: 20px 0;
+}
+
+.add-form input {
+  flex: 1;
+  padding: 10px;
+}
+
+.add-form button {
+  padding: 10px;
+  background: #4caf50;
+  border: none;
+  color: white;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-list li {
+  background: white;
+  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.done span {
+  text-decoration: line-through;
+  color: gray;
+}
+
+button {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+}
+
+.empty {
+  text-align: center;
+  color: gray;
+}
+
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f6fa;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background: #111827;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  margin-bottom: 30px;
+}
+
+.user {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  background: #4f46e5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  font-size: 20px;
+}
+
+.menu button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.menu button:hover {
+  background: #1f2937;
+}
+
+.stats {
+  margin-top: auto;
+  font-size: 14px;
+}
+
+.main {
+  flex: 1;
+  padding: 30px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add {
+  display: flex;
+  margin: 20px 0;
+}
+
+.add input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px 0 0 6px;
+}
+
+.add button {
+  padding: 12px 20px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 0 6px 6px 0;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.list li {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 6px;
+}
+
+.list li span {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.list li button {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.done span {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.empty {
+  text-align: center;
+  color: gray;
+}
