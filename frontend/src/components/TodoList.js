@@ -1,134 +1,122 @@
-
-      import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TodoList.css';
 
 function TodoList() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [filter, setFilter] = useState('all');
 
-  // FETCH TASKS
   useEffect(() => {
     fetch('http://localhost:5000/api/tasks')
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) {
-          setTasks(data);
-        } else {
-          console.error("Backend didn't send an array of tasks.");
-        }
+        if (Array.isArray(data)) setTasks(data);
       })
-      .catch(err => {
-        console.error("Backend Connection failed:", err);
-        // fallback
-        setTasks([{ _id: "1", text: "Test Task", completed: false }]);
+      .catch(() => {
+        setTasks([{ _id: "1", text: "Sample Task", completed: false }]);
       });
   }, []);
 
-  // ADD TASK
   const addTask = async (e) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
-    try {
-      const response = await fetch('http://localhost:5000/api/tasks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: inputValue, completed: false }),
-      });
+    const response = await fetch('http://localhost:5000/api/tasks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: inputValue, completed: false }),
+    });
 
-      const newTask = await response.json();
-      setTasks([...tasks, newTask]);
-      setInputValue('');
-    } catch (err) {
-      console.error("Add task failed:", err);
-    }
+    const newTask = await response.json();
+    setTasks([...tasks, newTask]);
+    setInputValue('');
   };
 
-  // TOGGLE COMPLETE
-  const toggleComplete = async (id, currentStatus) => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ completed: !currentStatus }),
-      });
+  const toggleComplete = async (id, status) => {
+    const res = await fetch(`http://localhost:5000/api/tasks/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ completed: !status }),
+    });
 
-      const updatedTask = await response.json();
-
-      setTasks(tasks.map(task =>
-        task._id === id ? updatedTask : task
-      ));
-    } catch (err) {
-      console.error("Status update failed:", err);
-    }
+    const updated = await res.json();
+    setTasks(tasks.map(t => t._id === id ? updated : t));
   };
 
-  // DELETE TASK
   const deleteTask = async (id) => {
-    try {
-      await fetch(`http://localhost:5000/api/tasks/${id}`, {
-        method: 'DELETE',
-      });
+    await fetch(`http://localhost:5000/api/tasks/${id}`, {
+      method: 'DELETE',
+    });
 
-      setTasks(tasks.filter(task => task._id !== id));
-    } catch (err) {
-      console.error("Delete failed:", err);
-    }
+    setTasks(tasks.filter(t => t._id !== id));
   };
 
-  // COUNTERS
-  const totalTasks = tasks.length;
-  const completedTasks = tasks.filter(t => t.completed).length;
+  const filtered = tasks.filter(t => {
+    if (filter === 'active') return !t.completed;
+    if (filter === 'completed') return t.completed;
+    return true;
+  });
+
+  const total = tasks.length;
+  const done = tasks.filter(t => t.completed).length;
 
   return (
-    <div className="todo-dashboard">
+    <div className="app">
 
-      {/* SIDEBAR */}
-      <aside className="todo-sidebar">
-        <div className="sidebar-header">
-          <div className="avatar-circle">W</div>
-          <div className="avatar-name">
-            Wubgzer <span className="chevron-down">v</span>
-          </div>
+      <aside className="sidebar">
+        <h2 className="logo">TaskFlow</h2>
+
+        <div className="user">
+          <div className="avatar">W</div>
+          <p>Wubgzer</p>
+        </div>
+
+        <nav className="menu">
+          <button onClick={() => setFilter('all')}>📋 All Tasks</button>
+          <button onClick={() => setFilter('active')}>⏳ Active</button>
+          <button onClick={() => setFilter('completed')}>✅ Completed</button>
+        </nav>
+
+        <div className="stats">
+          <p>Total: {total}</p>
+          <p>Done: {done}</p>
         </div>
       </aside>
 
-      {/* MAIN */}
-      <main className="todo-main">
-        <h1>Today</h1>
+      <main className="main">
 
-        {/* COUNTER */}
-        <p>Total Tasks: {totalTasks}</p>
-        <p>Completed: {completedTasks}</p>
+        <div className="header">
+          <h1>My Tasks</h1>
+          <span>{new Date().toDateString()}</span>
+        </div>
 
-        {/* TASK LIST */}
-        <ul className="clean-task-list">
-          {tasks.map(task => (
-            <li key={task._id} className={task.completed ? "task-complete" : ""}>
-              
-              <input
-                type="checkbox"
-                checked={task.completed || false}
-                onChange={() => toggleComplete(task._id, task.completed)}
-              />
-
-              <span>{task.text}</span>
-
-              {/* DELETE BUTTON */}
-              <button onClick={() => deleteTask(task._id)}>❌</button>
-            </li>
-          ))}
-        </ul>
-
-        {/* ADD TASK */}
-        <form onSubmit={addTask}>
+        <form onSubmit={addTask} className="add">
           <input
             type="text"
-            placeholder="Add task..."
+            placeholder="Add new task..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
+          <button>Add</button>
         </form>
+
+        {filtered.length === 0 ? (
+          <p className="empty">No tasks here</p>
+        ) : (
+          <ul className="list">
+            {filtered.map(task => (
+              <li key={task._id} className={task.completed ? "done" : ""}>
+                <input
+                  type="checkbox"
+                  checked={task.completed || false}
+                  onChange={() => toggleComplete(task._id, task.completed)}
+                />
+                <span>{task.text}</span>
+                <button onClick={() => deleteTask(task._id)}>✕</button>
+              </li>
+            ))}
+          </ul>
+        )}
 
       </main>
     </div>
