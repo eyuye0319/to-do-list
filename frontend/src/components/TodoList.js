@@ -1,122 +1,116 @@
-import React, { useState, useEffect } from 'react';
-import './TodoList.css';
+import React, { useState, useEffect } from "react";
+import "./TodoList.css";
+
+import Logo from "./Logo";
+import Header from "./Header";
+import Stats from "./Stats";
+import FilterBar from "./FilterBar";
+import TaskInput from "./TaskInput";
+import TaskItem from "./TaskItem";
 
 function TodoList() {
   const [tasks, setTasks] = useState([]);
-  const [inputValue, setInputValue] = useState('');
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
+
+  const API = "http://localhost:5000/api/tasks";
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/tasks')
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) setTasks(data);
-      })
+    fetch(API)
+      .then((res) => res.json())
+      .then((data) => setTasks(data))
       .catch(() => {
-        setTasks([{ _id: "1", text: "Sample Task", completed: false }]);
+        const local = JSON.parse(localStorage.getItem("tasks")) || [];
+        setTasks(local);
       });
   }, []);
 
-  const addTask = async (e) => {
-    e.preventDefault();
-    if (!inputValue.trim()) return;
+  // ADD TASK
+  const addTask = (text) => {
+    if (!text.trim()) return;
 
-    const response = await fetch('http://localhost:5000/api/tasks', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: inputValue, completed: false }),
-    });
+    const newTask = { _id: Date.now(), text, completed: false };
+    const updated = [...tasks, newTask];
 
-    const newTask = await response.json();
-    setTasks([...tasks, newTask]);
-    setInputValue('');
+    setTasks(updated);
+    localStorage.setItem("tasks", JSON.stringify(updated));
   };
 
-  const toggleComplete = async (id, status) => {
-    const res = await fetch(`http://localhost:5000/api/tasks/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ completed: !status }),
-    });
+  // TOGGLE
+  const toggle = (id) => {
+    const updated = tasks.map((t) =>
+      t._id === id ? { ...t, completed: !t.completed } : t
+    );
 
-    const updated = await res.json();
-    setTasks(tasks.map(t => t._id === id ? updated : t));
+    setTasks(updated);
   };
 
-  const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/api/tasks/${id}`, {
-      method: 'DELETE',
-    });
-
-    setTasks(tasks.filter(t => t._id !== id));
+  // DELETE
+  const remove = (id) => {
+    const updated = tasks.filter((t) => t._id !== id);
+    setTasks(updated);
   };
 
-  const filtered = tasks.filter(t => {
-    if (filter === 'active') return !t.completed;
-    if (filter === 'completed') return t.completed;
-    return true;
-  });
+  // CLEAR COMPLETED
+  const clearCompleted = () => {
+    setTasks(tasks.filter((t) => !t.completed));
+  };
 
-  const total = tasks.length;
-  const done = tasks.filter(t => t.completed).length;
+  // FILTER + SEARCH
+  const filtered = tasks
+    .filter((t) => {
+      if (filter === "active") return !t.completed;
+      if (filter === "completed") return t.completed;
+      return true;
+    })
+    .filter((t) => t.text.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="app">
+    <div className={darkMode ? "app dark" : "app"}>
 
+      {/* SIDEBAR */}
       <aside className="sidebar">
-        <h2 className="logo">TaskFlow</h2>
 
-        <div className="user">
-          <div className="avatar">W</div>
-          <p>Wubgzer</p>
-        </div>
+        <Logo />
 
-        <nav className="menu">
-          <button onClick={() => setFilter('all')}>📋 All Tasks</button>
-          <button onClick={() => setFilter('active')}>⏳ Active</button>
-          <button onClick={() => setFilter('completed')}>✅ Completed</button>
-        </nav>
+        <button onClick={() => setDarkMode(!darkMode)}>
+          🌙 Toggle Theme
+        </button>
 
-        <div className="stats">
-          <p>Total: {total}</p>
-          <p>Done: {done}</p>
-        </div>
+        <FilterBar setFilter={setFilter} />
+
+        <Stats
+          total={tasks.length}
+          done={tasks.filter((t) => t.completed).length}
+        />
+
+        <button onClick={clearCompleted}>🧹 Clear Completed</button>
       </aside>
 
+      {/* MAIN */}
       <main className="main">
 
-        <div className="header">
-          <h1>My Tasks</h1>
-          <span>{new Date().toDateString()}</span>
-        </div>
+        <Header />
 
-        <form onSubmit={addTask} className="add">
-          <input
-            type="text"
-            placeholder="Add new task..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-          <button>Add</button>
-        </form>
+        <input
+          placeholder="Search tasks..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
-        {filtered.length === 0 ? (
-          <p className="empty">No tasks here</p>
-        ) : (
-          <ul className="list">
-            {filtered.map(task => (
-              <li key={task._id} className={task.completed ? "done" : ""}>
-                <input
-                  type="checkbox"
-                  checked={task.completed || false}
-                  onChange={() => toggleComplete(task._id, task.completed)}
-                />
-                <span>{task.text}</span>
-                <button onClick={() => deleteTask(task._id)}>✕</button>
-              </li>
-            ))}
-          </ul>
-        )}
+        <TaskInput addTask={addTask} />
+
+        <ul>
+          {filtered.map((task) => (
+            <TaskItem
+              key={task._id}
+              task={task}
+              toggle={toggle}
+              remove={remove}
+            />
+          ))}
+        </ul>
 
       </main>
     </div>

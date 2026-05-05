@@ -1,409 +1,29 @@
+/* RESET */
 * {
   box-sizing: border-box;
-}
-
-body, .todo-dashboard {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
-  color: #202020;
-}
-
-.todo-dashboard {
-  display: flex;
-  height: 100vh;
-}
-
-.todo-sidebar {
-  width: 320px;
-  background-color: #faf9f8;
-  padding: 20px 15px;
-  border-right: 1px solid #f0f0f0;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 25px;
-  font-size: 14px;
-}
-
-.avatar-circle {
-  width: 32px;
-  height: 32px;
-  background-color: #db4c3f;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 16px;
-  margin-right: 8px;
-}
-
-.avatar-name {
-  font-weight: 600;
-  color: #202020;
-}
-
-.chevron-down {
-  font-size: 10px;
-  color: #808080;
-  margin-left: 3px;
-}
-
-.header-icons {
-  margin-left: auto;
-  display: flex;
-  gap: 15px;
-  color: #808080;
-  font-size: 18px;
-}
-
-.sidebar-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 25px 0;
-}
-
-.sidebar-nav li {
-  padding: 10px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: #202020;
-  transition: all 0.2s ease;
-}
-
-.sidebar-nav li span {
-  margin-right: 12px;
-  width: 20px;
-  text-align: center;
-}
-
-.sidebar-nav li:hover {
-  background-color: #f0f0f0;
-}
-
-.sidebar-nav li.active {
-  background-color: #ffefe5;
-  color: #db4c3f;
-  font-weight: 500;
-}
-
-.sidebar-projects {
-  margin-top: 10px;
-}
-
-.projects-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px;
-  margin-bottom: 10px;
-}
-
-.projects-header h3 {
-  font-size: 14px;
-  color: #202020;
-  margin: 0;
-  font-weight: 600;
-}
-
-.plus-icon {
-  font-size: 20px;
-  color: #808080;
-  cursor: pointer;
-}
-
-.project-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.project-list li {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.project-list li:hover {
-  background-color: #f0f0f0;
-}
-
-.project-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-right: 12px;
-}
-
-.project-dot.fitness { background-color: #eeaa44; }
-.project-dot.website { background-color: #44ee88; }
-.project-dot.grocery { background-color: #ffcc22; }
-.project-dot.appointment { background-color: #22aaff; }
-.project-dot.brand { background-color: #9955ff; }
-.project-dot.roadmap { background-color: #aaee44; }
-.project-dot.meeting { background-color: #ff55aa; }
-
-.todo-main {
-  flex: 1;
-  background-color: #ffffff;
-  padding: 50px 10%;
-  overflow-y: auto;
-}
-
-.main-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.main-header h1 {
-  font-size: 28px;
-  margin: 0;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-.view-action {
-  color: #808080;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.clean-task-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.clean-task-list li {
-  border-bottom: 1px solid #f0f0f0;
-  padding: 15px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.task-content {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  width: 100%;
-}
-
-.task-content input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  margin-top: 3px;
-  appearance: none;
-  cursor: pointer;
-  background-color: white;
-  transition: all 0.2s;
-}
-
-.task-content input[type="checkbox"]:hover {
-  border-color: #db4c3f;
-  background-color: #ffefe5;
-}
-
-.task-content input[type="checkbox"]:checked {
-  background-color: #db4c3f;
-  border-color: #db4c3f;
-}
-
-.task-content input[type="checkbox"]:checked::after {
-  content: '✓';
-  color: white;
-  font-size: 14px;
-  position: relative;
-  top: -2px;
-  left: 3px;
-}
-
-.task-text-group {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.task-main-text {
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-
-.task-complete .task-main-text {
-  text-decoration: line-through;
-  color: #aaa;
-}
-
-button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-button:hover {
-  transform: scale(1.2);
-  color: #db4c3f;
-}
-
-.inline-add-task form {
-  display: flex;
-  align-items: center;
-  padding: 15px 0;
-  border-bottom: 1px solid #f0f0f0;
-  font-size: 15px;
-}
-
-.inline-add-task input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 15px;
-  color: #808080;
-  margin-left: 15px;
-}
-
-.inline-add-task input::placeholder {
-  color: #aaa;
-}
-
-.add-icon {
-  font-size: 20px;
-  color: #db4c3f;
-  cursor: pointer;
-}
-
-.project-dot.linux { background-color: #ff5555; }
-.project-dot.algebra { background-color: #55ff55; }
-.project-dot.ai { background-color: #5555ff; }
-
-.project-list li.active {
-  background-color: #f0f0f0;
-  font-weight: bold;
-}
-.todo-dashboard {
-  display: flex;
-  height: 100vh;
-  font-family: Arial;
-}
-
-.todo-sidebar {
-  width: 220px;
-  background: #1e1e2f;
-  color: white;
-  padding: 20px;
-}
-
-.avatar-circle {
-  width: 50px;
-  height: 50px;
-  background: #4caf50;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-.menu p {
-  cursor: pointer;
-  margin: 10px 0;
-}
-
-.todo-main {
-  flex: 1;
-  padding: 30px;
-  background: #f4f6f8;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.stats {
-  margin: 10px 0;
-}
-
-.add-form {
-  display: flex;
-  margin: 20px 0;
-}
-
-.add-form input {
-  flex: 1;
-  padding: 10px;
-}
-
-.add-form button {
-  padding: 10px;
-  background: #4caf50;
-  border: none;
-  color: white;
-}
-
-.task-list {
-  list-style: none;
-  padding: 0;
-}
-
-.task-list li {
-  background: white;
-  margin-bottom: 10px;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.done span {
-  text-decoration: line-through;
-  color: gray;
-}
-
-button {
-  background: red;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-}
-
-.empty {
-  text-align: center;
-  color: gray;
-}
-
-
-body {
-  margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #f5f6fa;
 }
 
+/* ROOT APP */
 .app {
   display: flex;
   height: 100vh;
+  background: #f5f6fa;
+  color: #111;
+  transition: 0.3s;
 }
 
+/* DARK MODE */
+.app.dark {
+  background: #0f172a;
+  color: #fff;
+}
+
+/* SIDEBAR */
 .sidebar {
-  width: 250px;
+  width: 260px;
   background: #111827;
   color: white;
   padding: 20px;
@@ -412,111 +32,161 @@ body {
 }
 
 .logo {
-  margin-bottom: 30px;
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-weight: bold;
 }
 
-.user {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.avatar {
-  width: 60px;
-  height: 60px;
-  background: #4f46e5;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  font-size: 20px;
-}
-
-.menu button {
-  width: 100%;
+.sidebar button {
+  margin: 6px 0;
   padding: 10px;
-  margin-bottom: 10px;
-  background: none;
+  background: #1f2937;
   border: none;
   color: white;
-  text-align: left;
+  border-radius: 8px;
   cursor: pointer;
-  border-radius: 6px;
+  transition: 0.2s;
 }
 
-.menu button:hover {
-  background: #1f2937;
+.sidebar button:hover {
+  background: #374151;
 }
 
+/* MAIN AREA */
+.main {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+/* HEADER */
+.main h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+/* INPUT SEARCH */
+.main input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* ADD FORM */
+form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+form input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+form button {
+  padding: 12px 18px;
+  background: #4f46e5;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+form button:hover {
+  background: #4338ca;
+}
+
+/* TASK LIST */
+ul {
+  list-style: none;
+}
+
+/* TASK ITEM */
+li {
+  background: white;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.2s;
+}
+
+.app.dark li {
+  background: #1e293b;
+}
+
+/* HOVER EFFECT */
+li:hover {
+  transform: scale(1.01);
+}
+
+/* DONE TASK */
+.done {
+  opacity: 0.6;
+}
+
+.done span {
+  text-decoration: line-through;
+}
+
+/* BUTTONS */
+li button {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+li button:hover {
+  color: red;
+}
+
+/* STATS */
 .stats {
   margin-top: auto;
   font-size: 14px;
 }
 
-.main {
-  flex: 1;
-  padding: 30px;
+/* ERROR */
+p {
+  margin: 10px 0;
 }
-
-.header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.add {
-  display: flex;
-  margin: 20px 0;
-}
-
-.add input {
-  flex: 1;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px 0 0 6px;
-}
-
-.add button {
-  padding: 12px 20px;
-  background: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 0 6px 6px 0;
-}
-
-.list {
-  list-style: none;
-  padding: 0;
-}
-
-.list li {
-  background: white;
-  padding: 15px;
-  margin-bottom: 10px;
+.logo-box {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-radius: 6px;
+  gap: 10px;
+  margin-bottom: 25px;
 }
 
-.list li span {
-  flex: 1;
-  margin-left: 10px;
-}
-
-.list li button {
-  background: red;
+.logo-circle {
+  width: 45px;
+  height: 45px;
+  background: #4f46e5;
   color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
 }
 
-.done span {
-  text-decoration: line-through;
-  color: gray;
+.logo-box h2 {
+  margin: 0;
+  font-size: 18px;
 }
 
-.empty {
-  text-align: center;
-  color: gray;
+.logo-box p {
+  margin: 0;
+  font-size: 12px;
+  color: #aaa;
 }
